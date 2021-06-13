@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>ADD Guide</title>
+    <title>Update Guide</title>
     
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -12,10 +12,18 @@
 
 <body>
 
-        <h1>add new guide</h1>
+        <h1>Update Guide</h1>
 
         <!-- OUR FORM -->
-        <form id="guide_form" name="guide_form" method="POST">
+        <form id="uguide_form" name="uguide_form" method="PUT">
+
+            <!-- Guide ID-->
+            <div id="name-guide" class="form-group">
+                <label for="gid">Guide ID</label>
+                <input type="text" class="form-control" name="gid" id="gid"
+                    placeholder="write guide ID here" required>
+                <!-- errors will go here -->
+            </div>
 
             <!-- Guide name-->
             <div id="name-guide" class="form-group">

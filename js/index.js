@@ -33,7 +33,7 @@ async function tab(data){
     let get_ajax = "$.ajax({type: `GET`,url: `{}`,success: function (result) {tab(result);},error: function (err) {console.log(`err`, err);}});";
     let del_ajax = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     let add_site_ajax = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    let edit_ajax = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: {name: gname,email: gemail,cellular: gphone}},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let edit_ajax = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     
     for(let i = 0; i < size; i++)
     {   
@@ -92,14 +92,16 @@ async function tab(data){
     str = str + "</table>";
     let tableToAdd = $(str);
     $("#div1").html(tableToAdd);
+
     let get_date = get_ajax;
     get_date = get_date.replace('{}', '/tours_date');
     let get_aplhabetical = get_ajax.replace('{}', '/tours');
     let get_price = get_ajax.replace('{}', '/tours_price');
     let get_duration = get_ajax.replace('{}', '/tours_duration');
-    let but = $(`<button onclick="{${get_date}}">Date sort</button></br></br><button onclick="{${get_aplhabetical}}">Alphabetical sort</button></br></br><button onclick="{${get_price}}">Price sort</button></br></br><button onclick="{${get_duration}}">Duration sort</button></br></br></br></br><button onclick="{location.href='/add_tour';}">Add Tour</button></br></br></br></br><button onclick="{location.href='/add_guide';}">Add Guide</button>`);
+    let but = $(`<button onclick="{${get_date}}">Date sort</button></br></br><button onclick="{${get_aplhabetical}}">Alphabetical sort</button></br></br><button onclick="{${get_price}}">Price sort</button></br></br><button onclick="{${get_duration}}">Duration sort</button></br></br><button onclick="{location.href='/add_tour';}">Add Tour</button></br></br><button onclick="{location.href='/add_guide';}">Add Guide</button></br></br><button onclick="{location.href='/update_guide';}">Update Guide</button></br></br><button onclick="{location.href='/del_guide';}">Delete Guide</button>`);
     $("#div2").html(but);
-    let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let gname = $('#gname').val();let gemail = $('#gemail').val(); let gphone = $('#gphone').val();let obj = ''; if(!id_val) return;`;
+    let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let obj = ''; if(!id_val) return;`;
+
     $("#form_div").html($(`<form id="tour_form" name="tour_form">
     <div id="name-group" class="form-group">
         <label for="name">Name/ID</label>
@@ -129,23 +131,9 @@ async function tab(data){
 
     <!-- Guide name-->
     <div id="name-guide" class="form-group">
-        <label for="gname">Guide name</label>
+        <label for="gname">Guide ID</label>
         <input type="text" class="form-control" name="gname" id="gname"
             placeholder="write guide name here">
-        <!-- errors will go here -->
-    </div>
-
-    <!-- Guide EMAIL -->
-    <div id="email-group" class="form-group">
-        <label for="email">Guide Email</label>
-        <input type="email" class="form-control" name="email" id="gemail" placeholder="rudd@avengers.com">
-        <!-- errors will go here -->
-    </div>
-    <!-- Guide Phone -->
-    <div id="email-group" class="form-group">
-        <label for="phone">Guide Phone</label>
-        <input type="tel" class="form-control" name="phone" id="gphone"
-        placeholder="05xxxxxxxx">
         <!-- errors will go here -->
     </div>
     </form>

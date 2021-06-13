@@ -207,13 +207,13 @@ module.exports = {
 
         // update the guide
         const Id = req.params["id"];
-        Guide.findOne({ id: Id }, (err, data) => {
+        Guide.findOne({ _id: Id }, (err, data) => {
             if (err) {
-                res.status(400).send(`No such tour`);
+                res.status(400).send(`No such guide`);
                 return;
             } else {
-                Guide.findOneAndUpdate({ id: Id }, req.body, (err, dat) => { });
-                res.status(200).send("Updated tour.");
+                Guide.findOneAndUpdate({ _id: Id }, req.body, (err, dat) => { });
+                res.status(200).send("Updated guide.");
             }
         });
         
@@ -236,12 +236,12 @@ module.exports = {
     deleteGuide: function (req, res) {
         // delete the guide
         const Id = req.params["id"];
-        Guide.findOne({ name: Id }, (err, data) => {
+        Guide.findOne({ _id: Id }, (err, data) => {
             if (err) {
                 res.status(400).send('No such guide');
                 return;
             } else {
-                Guide.findOneAndDelete({ name: Id }, (err, dat) => { });
+                Guide.findOneAndDelete({ _id: Id }, (err, dat) => { });
                 res.status(200).send("Deleted the specified guide.")
             }
         })
