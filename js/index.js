@@ -66,7 +66,7 @@ function tab(data){
     let get_aplhabetical = get_ajax.replace('{}', '/tours');
     let get_price = get_ajax.replace('{}', '/tours_price');
     let get_duration = get_ajax.replace('{}', '/tours_duration');
-    let but = $(`<button onclick="{${get_date}}">Date sort</button></br></br><button onclick="{${get_aplhabetical}}">Alphabetical sort</button></br></br><button onclick="{${get_price}}">Price sort</button></br></br><button onclick="{${get_duration}}">Duration sort</button></br></br></br></br><button onclick="{location.href='/add_tour';}">Add Tour</button>`);
+    let but = $(`<button onclick="{${get_date}}">Date sort</button></br></br><button onclick="{${get_aplhabetical}}">Alphabetical sort</button></br></br><button onclick="{${get_price}}">Price sort</button></br></br><button onclick="{${get_duration}}">Duration sort</button></br></br></br></br><button onclick="{location.href='/add_tour';}">Add Tour</button></br></br></br></br><button onclick="{location.href='/add_guide';}">Add Guide</button>`);
     $("#div2").html(but);
     let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let gname = $('#gname').val();let gemail = $('#gemail').val(); let gphone = $('#gphone').val();let obj = ''; if(!id_val) return;`;
     $("#form_div").html($(`<form id="tour_form" name="tour_form">

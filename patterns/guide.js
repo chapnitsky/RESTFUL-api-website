@@ -18,7 +18,7 @@ var GuideSchema = new mongoose.Schema({
             }
         }
     },
-    phone_number: {
+    phone: {
         type: String,
         required: true,
         minlength: 10,

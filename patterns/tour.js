@@ -35,7 +35,6 @@ var TourSchema = new mongoose.Schema({
     guide:{
         type: mongoose.Schema.Types.ObjectId, ref: 'Guide'
     },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour'},
 }, { timestamps: true });
 TourSchema.plugin(id_validator);
 TourSchema.index("id");
