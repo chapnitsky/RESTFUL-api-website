@@ -102,7 +102,7 @@ async function tab(data){
     $("#div2").html(but);
     let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let obj = ''; if(!id_val) return;`;
 
-    $("#form_div").html($(`<form id="tour_form" name="tour_form">
+    $("#form_div").html($(`<form id="edit_form" name="tour_form" method="PUT">
     <div id="name-group" class="form-group">
         <label for="name">Name/ID</label>
         <input type="text" class="form-control" name="name" id="edit_id" placeholder="write name/id here">

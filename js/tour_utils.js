@@ -85,6 +85,37 @@ $(document).ready(function () {
         // stop the form from submitting the normal way and refreshing the page
         event.preventDefault();
     });
+    $('#edit_form').submit(function (event) {
+      console.log("in submit");
+      
+      // process the form
+      $.ajax({
+          type: 'PUT', // define the type of HTTP verb we want to use (POST for our form)
+          url: `/tours/${$("#edit_id").val()}`, // the url where we want to POST
+          contentType: 'application/json',
+          data: JSON.stringify({
+              "id": $("#edit_id").val(),
+              "start_date": $("#date").val(),
+              "duration": parseInt($("#duration").val()),
+              "price": parseInt($("#price").val()),
+              "guide": $("#gid").val()
+          }),
+          processData: false,            
+         // dataType: 'json', // what type of data do we expect back from the server
+          encode: true,
+          success: function( data, textStatus, jQxhr ){
+              console.log(data);
+              location.href = "/list";
+
+          },
+          error: function( jqXhr, textStatus, errorThrown ){
+              console.log( errorThrown );
+          }
+      })
+        
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
+  });
     $('#guide_form').submit(function (event) {
       if(!$("#guide_form").valid()) return;
       console.log("in submit");
