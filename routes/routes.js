@@ -4,7 +4,7 @@ const express = require('express'),
 var router = express.Router();
 
 router.get('/', (req, res) => {
-   res.send('Welcome to our TRIPS!!!');
+   res.send('For trips list goto /list');
 });
 
 //CRUD - create read update delete
