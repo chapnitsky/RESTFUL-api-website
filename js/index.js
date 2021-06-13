@@ -5,7 +5,7 @@ function loadDoc() {
         type: 'GET',
         url: "/tours",
         success: function (result) {
-            $("<div id='form_div' class='hid' > </div>").insertAfter("#div1");
+            $("<div id='edit_div' class='hid' > </div>").insertAfter("#div1");
             tab(result);
         },
         error: function (err) {
@@ -32,8 +32,8 @@ async function tab(data){
     let site_html = `<label for="name">Name</label><input type="text" class="form-control" name="name" id="name{}" placeholder="write name here" required><label for="country">Country</label><input type="text" class="form-control" name="country" id="country[]" placeholder="write country here" required>`;
     let get = "$.ajax({type: `GET`,url: `{}`,success: function (result) {tab(result);},error: function (err) {console.log(`err`, err);}});";
     let del = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    let add_site = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    let edit = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let add_site = "$.ajax({type: `POST`,url: `{}`,data: object = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let edit = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: object = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     
     for(let i = 0; i < len; i++)
     {   
@@ -78,14 +78,14 @@ async function tab(data){
         str += "</td>";
         copy = del.replace('{}','tours/' +data[i][1]["id"]);
         str += `<td><button onclick="{${copy}}">Delete</button></td>`;
-        str += `<td><button onclick="{$('#form_div').removeClass('hid').addClass('show'); $('#edit_id').val('${data[i][1]["id"]}');}">Edit</button></td>`;
+        str += `<td><button onclick="{$('#edit_div').removeClass('hid').addClass('show'); $('#edit_id').val('${data[i][1]["id"]}');}">Edit</button></td>`;
 
 
         copy = add_site.replace('{}','tours/' +data[i][1]["id"] + '/sites');
         let site_copy = site_html;
         site_copy = site_copy.replace('{}', String(i));
         site_copy = site_copy.replace('[]', String(i));
-        let get_info = `let name_val = $('#name${String(i)}').val();let country_val = $('#country${String(i)}').val(); let obj = ''; if(!name_val || !country_val) return;`;
+        let get_info = `let name_val = $('#name${String(i)}').val();let country_val = $('#country${String(i)}').val(); let object = ''; if(!name_val || !country_val) return;`;
         str += `<td>${site_copy}<button onclick="{${get_info} ${copy}}">Add</button></td>`;
         str = str + "</tr>";
     }
@@ -100,9 +100,9 @@ async function tab(data){
     let get_duration = get.replace('{}', '/duration_sort');
     let but = $(`<p></p><p></p><button onclick="{${get_date}}">Date sort</button>&nbsp&nbsp<button onclick="{${get_aplhabetical}}">Alphabetical sort</button>&nbsp&nbsp<button onclick="{${get_price}}">Price sort</button>&nbsp&nbsp<button onclick="{${get_duration}}">Duration sort</button>&nbsp&nbsp<p></p><p></p><button onclick="{location.href='/add_tour';}">Add Tour</button>&nbsp&nbsp<button onclick="{location.href='/add_guide';}">Add Guide</button>&nbsp&nbsp<button onclick="{location.href='/update_guide';}">Update Guide</button>&nbsp&nbsp<button onclick="{location.href='/del_guide';}">Delete Guide</button>&nbsp&nbsp<button onclick="{location.href='/tours_by_guide';}">Get tours Guide</button><p></p><p></p>`);
     $("#div2").html(but);
-    let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let obj = ''; if(!id_val) return;`;
+    let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let object = ''; if(!id_val) return;`;
 
-    $("#form_div").html($(`<form id="edit_form" name="tour_form" method="PUT">
+    $("#edit_div").html($(`<form id="edit_form" name="tour_form" method="PUT>
     <div id="name-group" class="form-group">
         <label for="name">Name/ID</label>
         <input type="text" class="form-control" name="name" id="edit_id" placeholder="write name/id here">
