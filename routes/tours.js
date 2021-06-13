@@ -105,7 +105,6 @@ module.exports = {
     },
     // CREATE
     createTour: function (req, res) {
-
             // add the new tour
             res.setHeader("Access-Control-Allow-Origin", '*');
             const obj = req.body;
