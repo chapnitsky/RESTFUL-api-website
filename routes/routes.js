@@ -8,9 +8,9 @@ router.get('/', (req, res) => {
 });
 
 //CRUD - create read update delete
-router.get('/tours_duration', tourRoutes.duration_sort);
-router.get('/tours_price', tourRoutes.price_sort);
-router.get('/tours_date', tourRoutes.date_sort);
+router.get('/duration_sort', tourRoutes.duration_sort);
+router.get('/price_sort', tourRoutes.price_sort);
+router.get('/date_sort', tourRoutes.date_sort);
 
 router.get('/tours_guide/:id', tourRoutes.getToursByGuide);
 router.get('/tours', tourRoutes.getTours); //read

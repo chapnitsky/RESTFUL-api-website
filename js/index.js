@@ -94,10 +94,10 @@ async function tab(data){
     $("#div1").html(tableToAdd);
 
     let get_date = get_ajax;
-    get_date = get_date.replace('{}', '/tours_date');
+    get_date = get_date.replace('{}', '/date_sort');
     let get_aplhabetical = get_ajax.replace('{}', '/tours');
-    let get_price = get_ajax.replace('{}', '/tours_price');
-    let get_duration = get_ajax.replace('{}', '/tours_duration');
+    let get_price = get_ajax.replace('{}', '/price_sort');
+    let get_duration = get_ajax.replace('{}', '/duration_sort');
     let but = $(`<p></p><p></p><button onclick="{${get_date}}">Date sort</button>&nbsp&nbsp<button onclick="{${get_aplhabetical}}">Alphabetical sort</button>&nbsp&nbsp<button onclick="{${get_price}}">Price sort</button>&nbsp&nbsp<button onclick="{${get_duration}}">Duration sort</button>&nbsp&nbsp<p></p><p></p><button onclick="{location.href='/add_tour';}">Add Tour</button>&nbsp&nbsp<button onclick="{location.href='/add_guide';}">Add Guide</button>&nbsp&nbsp<button onclick="{location.href='/update_guide';}">Update Guide</button>&nbsp&nbsp<button onclick="{location.href='/del_guide';}">Delete Guide</button>&nbsp&nbsp<button onclick="{location.href='/tours_by_guide';}">Get tours Guide</button><p></p><p></p>`);
     $("#div2").html(but);
     let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let obj = ''; if(!id_val) return;`;
