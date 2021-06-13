@@ -28,16 +28,16 @@ async function tab(data){
     let bord = 3;
     console.log(guides);
     let str = "<table cellspacing='10' border='" + bord +"'><tr><th>ID</th><th>Start Date</th><th>Duration</th><th>Price</th><th>Guide Name</th><th>Guide Email</th><th>Guide Cellular</th><th>Path</th><th>Delete Tour</th><th>Edit Tour</th><th>Add Site</th></tr>";
-    let size = data.length;
+    let len = data.length;
     let site_html = `<label for="name">Name</label><input type="text" class="form-control" name="name" id="name{}" placeholder="write name here" required><label for="country">Country</label><input type="text" class="form-control" name="country" id="country[]" placeholder="write country here" required>`;
     let get_ajax = "$.ajax({type: `GET`,url: `{}`,success: function (result) {tab(result);},error: function (err) {console.log(`err`, err);}});";
     let del_ajax = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     let add_site_ajax = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     let edit_ajax = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     
-    for(let i = 0; i < size; i++)
+    for(let i = 0; i < len; i++)
     {   
-        const g_id = data[i][1]["guide"]; // g_id = dwhjhtj46et9rg9drhfsehf
+        const g_id = data[i][1]["guide"];
         console.log(g_id);
         let g_name, g_email, g_phone;
         let found_g = false;
