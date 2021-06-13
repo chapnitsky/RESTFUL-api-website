@@ -53,6 +53,13 @@ module.exports = {
             res.send(sorted);
         });
     },
+    getGuides: function (req, res) {
+        Guide.find().then(tours => {
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(compareStrings);
+            res.send(sorted);
+        });
+    },
     //  READ
     getTours: function (req, res) {
         Tour.find().then(tours => {
@@ -73,12 +80,24 @@ module.exports = {
             }
         })
     },
+    //  READ TOUR
+    getToursByGuide: function (req, res) {
+        const Id = req.params["id"]; //ID of guide
+        let arr = [];
+        Tour.find().then(tours =>{
+            for(let i = 0; i < tours.length; i++){
+                if(tours[i].guide == Id)
+                    arr.push(tours[i]);
+            }
+        })
+        res.status(200).send(arr);
+    },
     // CREATE
     createGuide: function (req, res) {
         // add the new guide
         res.setHeader("Access-Control-Allow-Origin", '*');
         const obj = req.body;
-        if (!obj.name || !obj.phone || !obj.email) {
+        if (!obj.name || !obj.phone || !obj.email){
             res.status(400).send('Missing args.');
             return;
         }
@@ -178,6 +197,22 @@ module.exports = {
                 return;
             } else {
                 Tour.findOneAndUpdate({ id: Id }, req.body, (err, dat) => { });
+                res.status(200).send("Updated tour.");
+            }
+        });
+        
+    },
+    // UPDATE
+    updateGuide: function (req, res) {
+
+        // update the guide
+        const Id = req.params["id"];
+        Guide.findOne({ id: Id }, (err, data) => {
+            if (err) {
+                res.status(400).send(`No such tour`);
+                return;
+            } else {
+                Guide.findOneAndUpdate({ id: Id }, req.body, (err, dat) => { });
                 res.status(200).send("Updated tour.");
             }
         });

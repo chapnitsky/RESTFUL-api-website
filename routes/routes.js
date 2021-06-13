@@ -12,6 +12,7 @@ router.get('/tours_duration', tourRoutes.duration_sort);
 router.get('/tours_price', tourRoutes.price_sort);
 router.get('/tours_date', tourRoutes.date_sort);
 router.get('/tours', tourRoutes.getTours); //read
+router.get('/guides', tourRoutes.getGuides); //read guides
 router.get('/list', tourRoutes.index); //list of all things..
 router.get('/tours/:id', tourRoutes.getTour); //read tour
 router.post('/tours', tourRoutes.createTour); //create tour
