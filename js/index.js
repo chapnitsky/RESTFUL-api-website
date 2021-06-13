@@ -30,10 +30,10 @@ async function tab(data){
     let str = "<table cellspacing='10' border='" + bord +"'><tr><th>ID</th><th>Start Date</th><th>Duration</th><th>Price</th><th>Guide Name</th><th>Guide Email</th><th>Guide Cellular</th><th>Path</th><th>Delete Tour</th><th>Edit Tour</th><th>Add Site</th></tr>";
     let len = data.length;
     let site_html = `<label for="name">Name</label><input type="text" class="form-control" name="name" id="name{}" placeholder="write name here" required><label for="country">Country</label><input type="text" class="form-control" name="country" id="country[]" placeholder="write country here" required>`;
-    let get_ajax = "$.ajax({type: `GET`,url: `{}`,success: function (result) {tab(result);},error: function (err) {console.log(`err`, err);}});";
-    let del_ajax = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    let add_site_ajax = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    let edit_ajax = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let get = "$.ajax({type: `GET`,url: `{}`,success: function (result) {tab(result);},error: function (err) {console.log(`err`, err);}});";
+    let del = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let add_site = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
+    let edit = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: g_id},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     
     for(let i = 0; i < len; i++)
     {   
@@ -70,18 +70,18 @@ async function tab(data){
             for (let index = 0; index < num_path; index++) {
                 let s_name = data[i][1].path[index].name;
                 let s_country = data[i][1].path[index].country;
-                copy = del_ajax;
+                copy = del;
                 copy = copy.replace('{}', 'tours/' + data[i][1]["id"] + '/sites/' + s_name);
                 str += s_name +" At " + s_country + `</br><button onclick="{${copy}}">Delete</button></br>`;         
             }
         }
         str += "</td>";
-        copy = del_ajax.replace('{}','tours/' +data[i][1]["id"]);
+        copy = del.replace('{}','tours/' +data[i][1]["id"]);
         str += `<td><button onclick="{${copy}}">Delete</button></td>`;
         str += `<td><button onclick="{$('#form_div').removeClass('hid').addClass('show'); $('#edit_id').val('${data[i][1]["id"]}');}">Edit</button></td>`;
 
 
-        copy = add_site_ajax.replace('{}','tours/' +data[i][1]["id"] + '/sites');
+        copy = add_site.replace('{}','tours/' +data[i][1]["id"] + '/sites');
         let site_copy = site_html;
         site_copy = site_copy.replace('{}', String(i));
         site_copy = site_copy.replace('[]', String(i));
@@ -93,11 +93,11 @@ async function tab(data){
     let tableToAdd = $(str);
     $("#div1").html(tableToAdd);
 
-    let get_date = get_ajax;
+    let get_date = get;
     get_date = get_date.replace('{}', '/date_sort');
-    let get_aplhabetical = get_ajax.replace('{}', '/tours');
-    let get_price = get_ajax.replace('{}', '/price_sort');
-    let get_duration = get_ajax.replace('{}', '/duration_sort');
+    let get_aplhabetical = get.replace('{}', '/tours');
+    let get_price = get.replace('{}', '/price_sort');
+    let get_duration = get.replace('{}', '/duration_sort');
     let but = $(`<p></p><p></p><button onclick="{${get_date}}">Date sort</button>&nbsp&nbsp<button onclick="{${get_aplhabetical}}">Alphabetical sort</button>&nbsp&nbsp<button onclick="{${get_price}}">Price sort</button>&nbsp&nbsp<button onclick="{${get_duration}}">Duration sort</button>&nbsp&nbsp<p></p><p></p><button onclick="{location.href='/add_tour';}">Add Tour</button>&nbsp&nbsp<button onclick="{location.href='/add_guide';}">Add Guide</button>&nbsp&nbsp<button onclick="{location.href='/update_guide';}">Update Guide</button>&nbsp&nbsp<button onclick="{location.href='/del_guide';}">Delete Guide</button>&nbsp&nbsp<button onclick="{location.href='/tours_by_guide';}">Get tours Guide</button><p></p><p></p>`);
     $("#div2").html(but);
     let get_info2 = `let id_val = $('#edit_id').val();let date_val = $('#date').val();let duration_val = $('#duration').val();let price_val = $('#price').val();let g_id = $('#gname').val();let obj = ''; if(!id_val) return;`;
@@ -137,7 +137,7 @@ async function tab(data){
         <!-- errors will go here -->
     </div>
     </form>
-    <button onclick="{${get_info2} ${edit_ajax}}">Submit Editing</button>`));
+    <button onclick="{${get_info2} ${edit}}">Submit Editing</button>`));
 }
 
 $("document").ready(loadDoc);
