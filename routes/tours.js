@@ -1,27 +1,29 @@
 const fs = require('fs');
+const Tour = require('../patterns/tour')
+const Guide = require('../patterns/guide')
 
 // variables
 const dataPath = './data/tours.json';
 
 // helper methods
-const readFile = (callback, returnJson = false, filePath = dataPath, encoding = 'utf8') => {
-    fs.readFile(filePath, encoding, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            callback(returnJson ? JSON.parse(data) : data);
-       });
-};
+// const readFile = (callback, returnJson = false, filePath = dataPath, encoding = 'utf8') => {
+//     fs.readFile(filePath, encoding, (err, data) => {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             callback(returnJson ? JSON.parse(data) : data);
+//        });
+// };
 
-const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') => {
-        fs.writeFile(filePath, fileData, encoding, (err) => {
-            if (err) {
-                console.log(err);
-            }
+// const writeFile = (fileData, callback, filePath = dataPath, encoding = 'utf8') => {
+//         fs.writeFile(filePath, fileData, encoding, (err) => {
+//             if (err) {
+//                 console.log(err);
+//             }
 
-            callback();
-        });
-    };
+//             callback();
+//         });
+//     };
 
 const compareStrings = (a, b) => {
     // Assuming you want case-insensitive comparison
@@ -48,229 +50,176 @@ const compareDurations = (a, b) =>{
 
 module.exports = {
     duration_sort: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
-            }
-            else{
-                var obj = JSON.parse(data);
-                var arr = Object.entries(obj);
-                var sorted = arr.sort(compareDurations);
-                res.send(sorted);
-            }
-        });
+    
+        Tour.find().then(tours=>{
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(compareDurations);
+            res.send(sorted);
+        })
     },
     price_sort: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
-            }
-            else{
-                var obj = JSON.parse(data);
-                var arr = Object.entries(obj);
-                var sorted = arr.sort(comparePrices);
-                res.send(sorted);
-            }
-        });
+            
+        Tour.find().then(tours=>{
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(comparePrices);
+            res.send(sorted);
+        })
+            
     },
     date_sort: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
-            }
-            else{
-                var obj = JSON.parse(data);
-                var arr = Object.entries(obj);
-                var sorted = arr.sort(compareDates);
-                res.send(sorted);
-            }
-        });
+        Tour.find().then(tours=>{
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(compareDates);
+            res.send(sorted);
+        })
+            
     },
     //  LIST
     index: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
-            }
-            else{
-                var obj = JSON.parse(data);
-                var arr = Object.entries(obj);
-                var sorted = arr.sort(compareStrings);
-                res.send(sorted);
-            }
+        Tour.find().then(tours=>{
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(compareStrings);
+            res.send(sorted);
         });
     },
     //  READ
     getTours: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
-            }
-            else{
-                var obj = JSON.parse(data);
-                var arr = Object.entries(obj);
-                var sorted = arr.sort(compareStrings);
-                res.send(sorted);
-            }
+        Tour.find().then(tours=>{
+            var arr = Object.entries(tours);
+            var sorted = arr.sort(compareStrings);
+            res.send(sorted);
         });
+                
     },
     //  READ TOUR
     getTour: function (req, res) {
-        fs.readFile(dataPath, 'utf8', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);                 
+        const Id = req.params["id"];
+        Tour.findOne({id:Id}, (err,data)=>{
+            if(err){
+                res.status(400).send(`No such tour`);
+                return;
+            }else{
+                res.status(200).send(data);
             }
-            else{
-                const Id = req.params["id"];
-                var obj = JSON.parse(data);
-                if(!obj[Id]){
-                    res.status(400).send(`No such tour`);
-                    return;
-                }
-                res.send(obj[Id]);
-            }
-        });
+        })
     },
     // CREATE
     createTour: function (req, res) {
 
-        readFile(data => {
-
-            // add the new user
+            // add the new tour
             res.setHeader("Access-Control-Allow-Origin", '*');
             const obj = req.body;
-            if(!obj.id || !obj.start_date || !obj.duration || !obj.price || 
-                !obj.guide || !obj.guide.name || !obj.guide.cellular || !obj.guide.email){
+            // || !obj.guide || !obj.guide.name || !obj.guide.cellular || !obj.guide.email
+            if(!obj.id || !obj.start_date || !obj.duration || !obj.price){
                     res.status(400).send('Missing args.');
                     return;
             }
-            data[req.body.id] = req.body;
-
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send('new tour added');
+            const tour = new Tour(req.body);
+            const guide = new Guide(req.body);
+            tour.save().then(t=>{
+                res.status(200).send("Tour added successfully.");
+                console.log("Inserted: " + t);
             });
-        },
-            true);
+        
     },
     // CREATE SITE
     createSiteInPath: function (req, res) {
-        readFile(data => {
-
             // add the new site
-            const Id = req.params["id"];
             const obj = req.body;
-            if(!data[Id]){
-                res.status(400).send('No such tour');
-                return;
-            }
-            if(!data[Id].path){
-                data[Id].path = [];
-                data[Id].path.push({
-                    "name": obj.name,
-                    "country": obj.country
-                });
-            }else{
-                for(var i = 0; i < data[Id].path.length; i++){
-                    if(data[Id].path[i].name == obj.name){
-                        res.status(400).send('Already created');
+            const Id = req.params["id"];
+            console.log(req.body.name);
+            console.log(req.body.country);
+            Tour.findOne({id:Id}, (err,data)=>{
+                if(err){
+                    res.status(400).send(`No such tour`);
+                    return;
+                }else{
+                    let exists = (data.path.length!=0);
+                    if(!exists){
+                        console.log("in if path: " + data.path);
+                        let arr = [];
+                        arr.push({"name": obj.name, "country": obj.country});
+                        console.log(arr[0]);
+                        Tour.findOneAndUpdate({id:Id}, {path: arr}, (err,dat)=>{});
+                        res.status(200).send("Added site successfully from scratch.");
                         return;
+                    }else{
+                        for(var i = 0; i < data.path.length; i++){
+                            if(data.path[i].name == obj.name){
+                                res.status(400).send('Already created');
+                                return;
+                            }
+                        }
+                        let arr = data.path;
+                        arr.push({"name": obj.name, "country": obj.country});
+                        Tour.findOneAndUpdate({id:Id}, {path: arr}, (err,dat)=>{});
+                        res.status(200).send("Added site successfully.");
                     }
                 }
-                data[Id].path.push({
-                    "name": obj.name,
-                    "country": obj.country
-                });
-            }
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send('new site added');
-            });
-        },
-            true);
-},
+            })
+    },
     // UPDATE
     updateTour: function (req, res) {
 
-        readFile(data => {
-
-            // add the new user
+            // add the new tour
             const Id = req.params["id"];
-            if(!data[Id]){
-                res.status(400).send('No such tour');
-                return;
-            }
-            const obj = req.body;
-            if(obj.start_date)
-                data[Id].start_date = obj.start_date;
-            if(obj.duration)
-                data[Id].duration = obj.duration;
-            if(obj.price)
-                data[Id].price = obj.price;
-            if(obj.guide){
-                if(obj.guide.name){
-                    let k=false;
-                    for(let i=0;i<obj.guide.name.length;i++){
-                        if(!isNaN(obj.guide.name[i])){
-                            k=true;
-                            break;
-                        }
-                    }
-                    if (!k){
-                        data[Id].guide.name = obj.guide.name;
-                    }
+            Tour.findOne({id:Id}, (err, data)=>{
+                if(err){
+                    res.status(400).send(`No such tour`);
+                    return;
+                }else{
+                    Tour.findOneAndUpdate({id:Id}, req.body, (err,dat)=>{});
+                    res.status(200).send("Updated tour.");
                 }
-                if(obj.guide.cellular && obj.guide.cellular.length == 10){
-                    let k=false;
-                    for(let i=0;i<obj.guide.cellular.length;i++){
-                        if(isNaN(obj.guide.cellular[i])){
-                            k=true;
-                            break;
-                        }
-                    }
-                    if (!k){
-                        data[Id].guide.cellular = obj.guide.cellular;
-                    }
-                }
-                if(obj.guide.email){
-                    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    if(re.test(obj.guide.email))
-                        data[Id].guide.email = obj.guide.email;
-                }
-            } 
-
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`users id:${Id} updated`);
             });
-        },
-            true);
+            // if(obj.guide){
+            //     if(obj.guide.name){
+            //         let k=false;
+            //         for(let i=0;i<obj.guide.name.length;i++){
+            //             if(!isNaN(obj.guide.name[i])){
+            //                 k=true;
+            //                 break;
+            //             }
+            //         }
+            //         if (!k){
+            //             data[Id].guide.name = obj.guide.name;
+            //         }
+            //     }
+            //     if(obj.guide.cellular && obj.guide.cellular.length == 10){
+            //         let k=false;
+            //         for(let i=0;i<obj.guide.cellular.length;i++){
+            //             if(isNaN(obj.guide.cellular[i])){
+            //                 k=true;
+            //                 break;
+            //             }
+            //         }
+            //         if (!k){
+            //             data[Id].guide.cellular = obj.guide.cellular;
+            //         }
+            //     }
+            //     if(obj.guide.email){
+            //         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            //         if(re.test(obj.guide.email))
+            //             data[Id].guide.email = obj.guide.email;
+            //     }
     },
     // DELETE
     deleteTour: function (req, res) {
-
-        readFile(data => {
-
-            // delete the tour
-            const Id = req.params["id"];
-            if(!data[Id]){
+        // delete the tour
+        const Id = req.params["id"];
+        Tour.findOne({id:Id}, (err,data)=>{
+            if(err){
                 res.status(400).send('No such tour');
                 return;
+            }else{
+                Tour.findOneAndDelete({id:Id}, (err, dat)=>{});
+                res.status(200).send("Deleted the specified tour.")
             }
-            delete data[Id];
-            writeFile(JSON.stringify(data, null, 2), () => {
-                res.status(200).send(`users id:${Id} removed`);
-            });
-        },
-            true);
+        })
     },
     // DELETE SITE
     deleteSite: function (req, res) {
 
-        readFile(data => {
 
             // delete the site
             const Id = req.params["id"];
@@ -306,7 +255,5 @@ module.exports = {
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`users id:${Id} removed`);
             });
-        },
-            true);
     }
 };
