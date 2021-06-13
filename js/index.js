@@ -1,3 +1,5 @@
+let guides = null;
+
 function loadDoc() {
     $.ajax({
         type: 'GET',
@@ -12,8 +14,19 @@ function loadDoc() {
     });
 }
 
-function tab(data){
+async function tab(data){
+    await $.ajax({
+        type: 'GET',
+        url: "/guides",
+        success: function (result) {
+            guides = result;
+        },
+        error: function (err) {
+        console.log("err", err);
+        }
+    });
     let bord = 3;
+    console.log(guides);
     let str = "<table cellspacing='10' border='" + bord +"'><tr><th>ID</th><th>Start Date</th><th>Duration</th><th>Price</th><th>Guide Name</th><th>Guide Email</th><th>Guide Cellular</th><th>Path</th><th>Delete Tour</th><th>Edit Tour</th><th>Add Site</th></tr>";
     let size = data.length;
     let site_html = `<label for="name">Name</label><input type="text" class="form-control" name="name" id="name{}" placeholder="write name here" required><label for="country">Country</label><input type="text" class="form-control" name="country" id="country[]" placeholder="write country here" required>`;
@@ -21,17 +34,35 @@ function tab(data){
     let del_ajax = "$.ajax({type: `DELETE`,url: `{}`,success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     let add_site_ajax = "$.ajax({type: `POST`,url: `{}`,data: obj = {name: name_val, country: country_val},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
     let edit_ajax = "$.ajax({type: `PUT`,url: `tours/` + id_val,data: obj = {id: id_val, start_date: date_val,duration: duration_val,price: price_val,guide: {name: gname,email: gemail,cellular: gphone}},success: function (result) {location.href = `/list`;},error: function (err) {console.log(`err`, err);}});";
-    // let edit_ajax = 'console.log(id_val)';
+    
     for(let i = 0; i < size; i++)
     {   
+        const g_id = data[i][1]["guide"]; // g_id = dwhjhtj46et9rg9drhfsehf
+        console.log(g_id);
+        let g_name, g_email, g_phone;
+        let found_g = false;
+        for(let j = 0; j < guides.length; j++){
+            if(guides[j][1]["_id"] == g_id){
+                g_name = guides[j][1]["name"];
+                g_email = guides[j][1]["email"];
+                g_phone = guides[j][1]["phone"];
+                found_g = true;
+                break;
+            }
+        }
+        if(!found_g){
+            console.log("error in guides ID");
+            return;
+        }
+        
         str = str + "<tr>";
         str = str + "<td>" + data[i][1]["id"] +"</td>";
         str = str + "<td>" + data[i][1]["start_date"] +"</td>";
         str = str + "<td>" + data[i][1]["duration"] +"</td>";
         str = str + "<td>" + data[i][1]["price"] +"</td>";
-        str = str + "<td>" + data[i][1].guide.name +"</td>";
-        str = str + "<td>" + data[i][1].guide.email +"</td>";
-        str = str + "<td>" + data[i][1].guide.cellular +"</td>";
+        str = str + "<td>" + g_name +"</td>";
+        str = str + "<td>" + g_email +"</td>";
+        str = str + "<td>" + g_phone +"</td>";
         str += "<td>";
         let copy = '';
         if(data[i][1].path){
