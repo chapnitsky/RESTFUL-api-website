@@ -1,24 +1,18 @@
 body{
-background-image: url("fly photo.jpg");
-background-repeat: no-repeat;
-height: 100%;
-background-position: center;
-background-size: cover;
+background-color: beige;
 }
 button {
     border: none;
-    color: #ec7749;
+    color: rgb(91,117,206);
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 30px;
+    margin: 6px 4px;
     cursor: pointer;
   }
-#div2{
-    position: absolute;
-    left:80%;
-    top:10%;
+#div1{
+    text-align: center;
 }
 
 #form1{
@@ -33,14 +27,24 @@ button {
 .show{
     visibility: show;
 }
-table {
-    border: solid black 1px;
-    border-spacing: 10px;
 
+table, th, td {
+    border:solid 3px rgb(71, 107,185); 
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    text-align: left;
+    padding: 15px;
+    table-layout: fixed;
 }
-th, td{border:solid 1px black; padding-left:10px;}
+
+th {
+    background-color: rgb(91,117,206);
+    color: beige;
+}
 
 label{
-    color: #ec7749;
+    color: rgb(71, 107,185);
 }
 
