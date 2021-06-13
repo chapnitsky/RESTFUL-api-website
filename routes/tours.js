@@ -192,12 +192,22 @@ module.exports = {
 
         // add the new tour
         const Id = req.params["id"];
+        
         Tour.findOne({ id: Id }, (err, data) => {
             if (err) {
                 res.status(400).send(`No such tour`);
                 return;
             } else {
-                Tour.findOneAndUpdate({ id: Id }, req.body, (err, dat) => { });
+                let obj = data;
+                if(req.body.start_date)
+                    obj.start_date = req.body.start_date
+                if(req.body.duration)
+                obj.duration = req.body.duration
+                if(req.body.price)
+                obj.price = req.body.price
+                if(req.body.guide)
+                obj.guide = req.body.guide
+                Tour.findOneAndUpdate({ id: Id }, obj, (err, dat) => { });
                 res.status(200).send("Updated tour.");
             }
         });
