@@ -8,11 +8,6 @@ $(document).ready(function () {
           },
           "email":{
             "email":true
-          },
-          "gphone":{
-            digits: true,
-            minlength: 10,
-            maxlength: 10
           }
         },
         // Specify validation error messages
@@ -37,11 +32,7 @@ $(document).ready(function () {
                 "start_date": $("#date").val(),
                 "duration": parseInt($("#duration").val()),
                 "price": parseInt($("#price").val()),
-                "guide":{
-                  "name": $("#gname").val(),
-                  "email": $("#gemail").val(),
-                  "cellular": $("#gphone").val()
-                }
+                "guide": $("#gid").val()
             }),
             processData: false,            
            // dataType: 'json', // what type of data do we expect back from the server

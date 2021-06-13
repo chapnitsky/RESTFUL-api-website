@@ -5,11 +5,11 @@ function loadDoc() {
         type: 'GET',
         url: "/tours",
         success: function (result) {
-         $("<div id='form_div' class='hid' > </div>").insertAfter("#div1");
-        tab(result);
+            $("<div id='form_div' class='hid' > </div>").insertAfter("#div1");
+            tab(result);
         },
         error: function (err) {
-        console.log("err", err);
+            console.log("err", err);
         }
     });
 }
