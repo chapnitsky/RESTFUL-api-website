@@ -4,20 +4,18 @@
 <head>
     <title>ADD Guide</title>
     
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"><!-- load bootstrap via CDN -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- load jquery via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="js/tour_utils.js"></script>     <!-- load our javascript file -->
-
+    <script src="js/tour_utils.js"></script> 
 </head>
 
 <body>
-    <div class="col-sm-6 col-sm-offset-3">
 
         <h1>add new guide</h1>
 
         <!-- OUR FORM -->
-        <form id="guide_form" name="guide_form" method="POST">
+        <form id="tour_form" name="tour_form" method="POST">
 
             <!-- Guide name-->
             <div id="name-guide" class="form-group">
@@ -33,7 +31,6 @@
                 <input type="text" class="form-control" name="email" id="gemail" placeholder="rudd@avengers.com" required>
                 <!-- errors will go here -->
             </div>
-            
             <!-- Guide Phone -->
             <div id="email-group" class="form-group">
                 <label for="phone">Guide Phone</label>
