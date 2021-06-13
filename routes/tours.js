@@ -89,8 +89,9 @@ module.exports = {
                 if(tours[i].guide == Id)
                     arr.push(tours[i]);
             }
+            console.log(arr);
+            res.status(200).send(arr);
         })
-        res.status(200).send(arr);
     },
     // CREATE
     createGuide: function (req, res) {

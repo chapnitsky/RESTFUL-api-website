@@ -169,5 +169,32 @@ $('#dguide_form').submit(function (event) {
   // stop the form from submitting the normal way and refreshing the page
   event.preventDefault();
 });
+$('#tourguide_form').submit(function (event) {
+  console.log("in submit");
+  // process the form
+  $.ajax({
+      type: 'GET', // define the type of HTTP verb we want to use (POST for our form)
+      url: `/tours_guide/${$("#gid").val()}`, // the url where we want to POST
+      contentType: 'application/json',
+      processData: false,            
+     // dataType: 'json', // what type of data do we expect back from the server
+      encode: true,
+      success: function( data, textStatus, jQxhr ){
+          console.log(data);
+          str = "<br></br>";
+          for(let i = 0; i < data.length; i++){
+            str += data[i]["id"] + "<br></br>";
+          }
+          $("#resulted").html(str);
+
+      },
+      error: function( jqXhr, textStatus, errorThrown ){
+          console.log( errorThrown );
+      }
+  })
+    
+  // stop the form from submitting the normal way and refreshing the page
+  event.preventDefault();
+});
 
 });

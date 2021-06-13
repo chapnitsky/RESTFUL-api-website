@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 router.get('/tours_duration', tourRoutes.duration_sort);
 router.get('/tours_price', tourRoutes.price_sort);
 router.get('/tours_date', tourRoutes.date_sort);
+router.get('/tours_guide/:id', tourRoutes.getToursByGuide);
 router.get('/tours', tourRoutes.getTours); //read
 router.get('/guides', tourRoutes.getGuides); //read guides
 router.get('/list', tourRoutes.index); //list of all things..
